@@ -1,8 +1,8 @@
 #!/bin/env sh
 
 premake5 gmake2
-make a
+make all
 
 echo "---Finished build <3----"
 
-./bin/Debug/a
+./bin/Debug/labyrinth

@@ -1,10 +1,10 @@
 workspace "Spbu"
    configurations { "Debug", "Release" }
 
-project "a"
+project "labyrinth"
    kind "ConsoleApp"
    language "C"
-   files { "main.c" }
+   files { "*.c", "*.h" }
 
    filter { "configurations:Debug" }
       defines { "DEBUG" }
@@ -13,17 +13,4 @@ project "a"
    filter { "configurations:Release" }
       defines { "NDEBUG" }
       optimize "On"
-
-project "rational-roots"
-      kind "ConsoleApp"
-      language "C"
-      files { "rational-roots.c" }
-      filter { "configurations:Debug" }
-         defines { "DEBUG" }
-         symbols "On"
-
-      filter { "configurations:Release" }
-         defines { "NDEBUG" }
-         optimize "On"
-
 
