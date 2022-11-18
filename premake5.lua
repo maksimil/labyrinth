@@ -1,4 +1,4 @@
-workspace "Spbu"
+workspace "labyrinth"
    configurations { "Debug", "Release" }
 
 project "labyrinth"

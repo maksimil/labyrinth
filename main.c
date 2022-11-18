@@ -63,7 +63,7 @@ int main() {
 
       if (!gen_res) {
         failures += 1;
-        if (failures % 100 == 0) {
+        if (failures % 10000 == 0) {
           printf("Failed to generate maze %lu\n", failures);
         }
       }
