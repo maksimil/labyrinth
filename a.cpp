@@ -71,7 +71,7 @@ void lab_print(const Labyrinth *lab) {
 
   for (uint16_t y = 0; y < lab->height; y++) {
     DISPLAY(0, y, LEFT);
-    for (uint16_t x = 0; x < lab->height; x++) {
+    for (uint16_t x = 0; x < lab->width; x++) {
       if (lab->connect[x][y] & START)
         cout << "\x1b[32m";
       else if (lab->connect[x][y] & FINISH)
@@ -87,7 +87,7 @@ void lab_print(const Labyrinth *lab) {
     cout << endl;
 
     cout << WALL;
-    for (uint16_t x = 0; x < lab->height; x++) {
+    for (uint16_t x = 0; x < lab->width; x++) {
       DISPLAY(x, y, DOWN);
       cout << WALL;
     }
@@ -143,25 +143,15 @@ void lab_dig(Labyrinth *lab, int16_t p_x, int16_t p_y) {
 }
 
 int main() {
-  size_t n = 20;
-  Labyrinth lab = lab_create(n, n);
+  size_t width, height;
+  cout << "Width, height: ";
+  cin >> width >> height;
 
-  lab_generate(&lab, 0, 0, n - 1, n - 1);
+  Labyrinth lab = lab_create(width, height);
+
+  lab_generate(&lab, 0, 0, width - 1, height - 1);
 
   lab_print(&lab);
 
   lab_free(&lab);
 }
-
-// int main() {
-//   size_t width, height;
-//   cout << "Width, height: ";
-//   cin >> width >> height;
-//
-//   width += 1 - width % 2;
-//   height += 1 - height % 2;
-//
-//   Labyrinth lab = lab_create(width, height);
-//
-//   lab_free(&lab);
-// }
