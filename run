@@ -1,0 +1,8 @@
+#!/bin/env sh
+
+premake5 gmake2
+make a
+
+echo "---Finished build <3----"
+
+./bin/Debug/a

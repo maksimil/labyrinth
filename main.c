@@ -1,10 +1,8 @@
-#include <cstddef>
-#include <cstdint>
-#include <cstdlib>
-#include <iostream>
-#include <stdint.h>
-
-using namespace std;
+#include "malloc.h"
+#include "stdint.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "time.h"
 
 const uint8_t UP = 1 << 0;
 const uint8_t RIGHT = 1 << 1;
@@ -16,22 +14,22 @@ const uint8_t START = 1 << 5;
 const uint8_t FINISH = 1 << 6;
 const uint8_t VISITED = 1 << 7;
 
-struct Labyrinth {
+typedef struct {
   uint16_t width;
   uint16_t height;
 
   // bitmask
   uint8_t **connect;
-};
+} Labyrinth;
 
 Labyrinth lab_create(size_t width, size_t height) {
   Labyrinth lab;
   lab.width = width;
   lab.height = height;
 
-  lab.connect = new uint8_t *[width];
+  lab.connect = malloc(sizeof(*lab.connect) * width);
   for (uint16_t i = 0; i < width; i++) {
-    lab.connect[i] = new uint8_t[height];
+    lab.connect[i] = malloc(sizeof(*lab.connect[i] * height));
     for (uint16_t j = 0; j < height; j++) {
       lab.connect[i][j] = ENABLE;
     }
@@ -42,57 +40,55 @@ Labyrinth lab_create(size_t width, size_t height) {
 
 void lab_free(Labyrinth *lab) {
   for (uint16_t i = 0; i < lab->width; i++) {
-    // lab->connect[i] = new uint8_t[lab.height];
-    delete[] lab->connect[i];
+    free(lab->connect[i]);
   }
 
-  delete[] lab->connect;
+  free(lab->connect);
 };
 
 const char *PATH = "█";
-// const char *PATH = "+";
 const char *WALL = " ";
 
 #define DISPLAY(x, y, dir)                                                     \
   if (lab->connect[x][y] & dir)                                                \
-    cout << PATH;                                                              \
+    printf("%s", PATH);                                                        \
   else                                                                         \
-    cout << WALL;
+    printf("%s", WALL);
 
 void lab_print(const Labyrinth *lab) {
   // first row
-  cout << WALL;
+  printf("%s", WALL);
 
   for (uint16_t x = 0; x < lab->width; x++) {
     DISPLAY(x, 0, UP);
-    cout << WALL;
+    printf("%s", WALL);
   }
-  cout << endl;
+  printf("\n");
 
   for (uint16_t y = 0; y < lab->height; y++) {
     DISPLAY(0, y, LEFT);
     for (uint16_t x = 0; x < lab->width; x++) {
       if (lab->connect[x][y] & START)
-        cout << "\x1b[32m";
+        printf("\x1b[32m");
       else if (lab->connect[x][y] & FINISH)
-        cout << "\x1b[31m";
+        printf("\x1b[31m");
 
       DISPLAY(x, y, ENABLE);
 
-      cout << "\x1b[0m";
+      printf("\x1b[0m");
 
       DISPLAY(x, y, RIGHT);
     }
 
-    cout << endl;
+    printf("\n");
 
-    cout << WALL;
+    printf("%s", WALL);
     for (uint16_t x = 0; x < lab->width; x++) {
       DISPLAY(x, y, DOWN);
-      cout << WALL;
+      printf("%s", WALL);
     }
 
-    cout << endl;
+    printf("\n");
   }
 }
 
@@ -143,9 +139,10 @@ void lab_dig(Labyrinth *lab, int16_t p_x, int16_t p_y) {
 }
 
 int main() {
-  size_t width, height;
-  cout << "Width, height: ";
-  cin >> width >> height;
+  uint16_t width, height;
+  printf("Width, height: ");
+  scanf("%hu", &width);
+  scanf("%hu", &height);
 
   Labyrinth lab = lab_create(width, height);
 
