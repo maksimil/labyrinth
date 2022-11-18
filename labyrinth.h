@@ -28,4 +28,11 @@ void lab_print(const Labyrinth *lab);
 void lab_generate(Labyrinth *lab, int16_t s_x, int16_t s_y, int16_t f_x,
                   int16_t f_y);
 
+typedef struct {
+  int16_t *data;
+  uint16_t ptr;
+} Path;
+
+Path lab_solve(Labyrinth *lab, int16_t s_x, int16_t s_y);
+
 #endif
