@@ -3,12 +3,14 @@
 #include "stdlib.h"
 #include "time.h"
 
-void lab_dig(Labyrinth *lab, int16_t p_x, int16_t p_y) {
+int8_t lab_dig(Labyrinth *lab, int16_t p_x, int16_t p_y) {
   lab->connect[p_x][p_y] |= VISITED;
 
   if (lab->connect[p_x][p_y] & FINISH) {
-    return;
+    return 1;
   }
+
+  int8_t finished = 0;
 
   int16_t dps[4][2] = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}};
   int8_t dirs[4] = {RIGHT, UP, LEFT, DOWN};
@@ -33,18 +35,19 @@ void lab_dig(Labyrinth *lab, int16_t p_x, int16_t p_y) {
       lab->connect[p_x][p_y] |= dirs[idx];
       lab->connect[np_x][np_y] |= dirs[(idx + 2) % 4];
 
-      lab_dig(lab, np_x, np_y);
+      finished |= lab_dig(lab, np_x, np_y);
     }
   }
+
+  return finished;
 }
 
-void lab_generate(Labyrinth *lab, int16_t s_x, int16_t s_y, int16_t f_x,
-                  int16_t f_y) {
-  srand(time(NULL));
+int8_t lab_generate(Labyrinth *lab, int16_t s_x, int16_t s_y, int16_t f_x,
+                    int16_t f_y) {
   lab->connect[s_x][s_y] = START | ENABLE;
   lab->connect[f_x][f_y] = FINISH | ENABLE;
 
-  lab_dig(lab, s_x, s_y);
+  return lab_dig(lab, s_x, s_y);
 }
 
 const uint8_t NVISITED = VISITED;

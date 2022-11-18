@@ -25,8 +25,8 @@ Labyrinth lab_create(uint16_t width, uint16_t height);
 void lab_free(Labyrinth *lab);
 
 void lab_print(const Labyrinth *lab);
-void lab_generate(Labyrinth *lab, int16_t s_x, int16_t s_y, int16_t f_x,
-                  int16_t f_y);
+int8_t lab_generate(Labyrinth *lab, int16_t s_x, int16_t s_y, int16_t f_x,
+                    int16_t f_y);
 
 typedef struct {
   int16_t *data;

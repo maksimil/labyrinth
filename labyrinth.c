@@ -10,9 +10,6 @@ Labyrinth lab_create(uint16_t width, uint16_t height) {
   lab.connect = malloc(sizeof(*lab.connect) * width);
   for (uint16_t i = 0; i < width; i++) {
     lab.connect[i] = malloc(sizeof(*lab.connect[i]) * height);
-    for (uint16_t j = 0; j < height; j++) {
-      lab.connect[i][j] = ENABLE;
-    }
   }
 
   return lab;
