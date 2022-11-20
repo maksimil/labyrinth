@@ -3,6 +3,6 @@
 premake5 gmake2
 make all
 
-echo "---Finished build <3----"
+python3 -c "print('---Finished build \x1b[31m<3\x1b[0m----')"
 
 ./bin/Debug/labyrinth
